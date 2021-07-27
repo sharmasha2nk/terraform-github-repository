@@ -31,8 +31,8 @@ resource "github_repository" "main" {
 }
 
 resource "github_branch_protection" "main" {
-  repository     = github_repository.main.name
-  branch         = github_repository.main.default_branch
+  pattern        = github_repository.main.default_branch
+  repository_id  = github_repository.main.node_id
   enforce_admins = var.enforce_admins
 
   required_status_checks {
@@ -42,7 +42,6 @@ resource "github_branch_protection" "main" {
 
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
-    dismissal_users            = var.dismiss_review_users
     require_code_owner_reviews = true
   }
 }
