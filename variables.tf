@@ -50,6 +50,11 @@ variable "allow_squash_merge" {
   description = "allow landing a PR by squashing all commits to a commit and rebase to base branch in this repository"
 }
 
+variable "delete_branch_on_merge" {
+  default     = false
+  description = "Automatically delete head branch after a pull request is merged. Defaults to false"
+}
+
 variable "archived" {
   type        = string
   default     = false
@@ -107,6 +112,11 @@ variable "status_checks_contexts" {
   description = "The list of required status checks in order to merge into the protected branch, e.g. AWS CodeBuild ap-southeast-1 (<codebuild_project_name>)"
 }
 
+variable "require_conversation_resolution" {
+  default     = false
+  description = "Boolean, setting this to true requires all conversations on code must be resolved before a pull request can be merged."
+}
+
 # Optional inputs, for setting initial commit in the new repository
 
 variable "auto_init" {
@@ -140,4 +150,24 @@ variable "template_owner" {
   type        = string
   default     = ""
   description = "The name of organization who owned the repository template"
+}
+
+# Optional. Autolink references
+# References to GitHub issues, pull requests, and commits are automatically converted into links. Configure your own autolink references for non-GitHub URLs
+# Ref: https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_autolink_reference
+
+variable "github_repository_autolink_references" {
+  type        = map(string)
+  default     = {}
+  description = "Allows you to create and manage an autolink reference for a single repository. Eg. {'FFE-' = 'https://29022131.atlassian.net/secure/QuickSearch.jspa?searchString=FEE-<num>'}"
+}
+
+# Optional. Github Apps.
+# GitHub Apps augment and extend your workflows on GitHub with commercial, open source, and homegrown tools.
+# Ref: https://registry.terraform.io/providers/integrations/github/latest/docs/resources/app_installation_repository
+
+variable "github_app_installations" {
+  type        = list(string)
+  default     = []
+  description = "The GitHub app installation id."
 }
